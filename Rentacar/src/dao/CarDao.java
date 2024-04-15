@@ -1,9 +1,8 @@
 package dao;
 
 import core.Db;
-import entity.Brand;
 import entity.Car;
-import entity.Model;
+
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

@@ -12,7 +12,9 @@ import entity.User;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.text.MaskFormatter;
 import java.awt.event.*;
+import java.text.ParseException;
 import java.util.ArrayList;
 
 public class AdminView extends Layout{
@@ -37,17 +39,35 @@ public class AdminView extends Layout{
     private JButton btn_cncl_fltr;
     private JTable tbl_car;
     private JScrollPane scrl_cars;
+    private JPanel pnl_booking;
+    private JLabel lbl_strt_date;
+    private JLabel lbl_fnsh_date;
+    private JLabel lbl_book_gear;
+    private JLabel lbl_book_fuel;
+    private JLabel lbl_book_type;
+    private JFormattedTextField fld_strt_date;
+    private JFormattedTextField fld_fnsh_date;
+    private JComboBox cmb_book_gear;
+    private JComboBox cmb_book_fuel;
+    private JComboBox cmb_book_type;
+    private JButton btn_book_search;
+    private JScrollPane scrl_book;
+    private JTable tbl_book;
+    private JButton btn_book_delete_filter;
     private User user;
     private DefaultTableModel tmdl_brand = new DefaultTableModel();
     private DefaultTableModel tmdl_model = new DefaultTableModel();
     private DefaultTableModel tmdl_car = new DefaultTableModel();
+    private DefaultTableModel tmdl_book = new DefaultTableModel();
     private BrandManager brandManager;
     private ModelManager modelManager;
     private JPopupMenu brand_menu;
     private JPopupMenu model_menu;
     private JPopupMenu car_menu;
+    private JPopupMenu book_menu;
     private Object[] col_mtbl_model;
     private CarManager carManager;
+    private Object[] col_booking_list;
 
     public AdminView(User user) {
         this.carManager = new CarManager();
@@ -75,9 +95,45 @@ public class AdminView extends Layout{
         loadCarTable();
         loadCarComponent();
 
+        // Booking Tab Menu
+        loadBookingTable(null);
+        loadBookingComponent();
+        loadBookingFilter();
+
         this.tbl_brand.setComponentPopupMenu(brand_menu);
         this.tbl_model.setComponentPopupMenu(model_menu);
 
+        btn_book_search.addActionListener(e -> {
+            ArrayList<Car> carList = this.carManager.searchForBooking(fld_strt_date.getText(), fld_fnsh_date.getText(), (Model.Gear) cmb_book_gear.getSelectedItem(), (Model.Fuel) cmb_book_fuel.getSelectedItem(), (Model.Type) cmb_book_type.getSelectedItem());
+            ArrayList<Object[]> carBookingRow = this.carManager.getForTable(this.col_booking_list.length, carList);
+            loadBookingTable(carBookingRow);
+        });
+        btn_book_delete_filter.addActionListener(e -> {
+            loadBookingFilter();
+        });
+    }
+
+    public void loadBookingTable(ArrayList<Object[]> carList) {
+        col_booking_list = new Object[]{"ID", "Brand", "Model", "Plate", "Color", "KM", "Year", "Type", "Fuel", "Gear"};
+        generateTable(this.tmdl_book, this.tbl_book, col_booking_list, carList);
+    }
+
+    public void loadBookingComponent() {
+        tableRowSelect(this.tbl_book);
+        this.book_menu = new JPopupMenu();
+        this.book_menu.add("Book a Car").addActionListener(e -> {
+
+        });
+        this.tbl_book.setComponentPopupMenu(book_menu);
+    }
+
+    public void loadBookingFilter() {
+        this.cmb_book_type.setModel(new DefaultComboBoxModel<>(Model.Type.values()));
+        this.cmb_book_type.setSelectedItem(null);
+        this.cmb_book_fuel.setModel(new DefaultComboBoxModel<>(Model.Fuel.values()));
+        this.cmb_book_fuel.setSelectedItem(null);
+        this.cmb_book_gear.setModel(new DefaultComboBoxModel<>(Model.Gear.values()));
+        this.cmb_book_gear.setSelectedItem(null);
     }
 
     public void loadCarTable() {
@@ -254,5 +310,13 @@ public class AdminView extends Layout{
         Object[] col_mtbl_brand = {"Brand ID", "Brand Name"};
         ArrayList<Object[]> brandList = this.brandManager.getForTable(col_mtbl_brand.length);
         this.generateTable(this.tmdl_brand, this.tbl_brand, col_mtbl_brand, brandList);
+    }
+
+    private void createUIComponents() throws ParseException {
+        // custom component creation code
+        this.fld_strt_date = new JFormattedTextField(new MaskFormatter("##/##/####"));
+        this.fld_strt_date.setText("01/01/2024");
+        this.fld_fnsh_date = new JFormattedTextField(new MaskFormatter("##/##/####"));
+        this.fld_fnsh_date.setText("01/01/2024");
     }
 }
