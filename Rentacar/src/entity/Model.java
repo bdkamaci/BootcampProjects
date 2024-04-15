@@ -1,5 +1,7 @@
 package entity;
 
+import core.ComboItem;
+
 public class Model {
     private int id;
     private int brand_id;
@@ -9,6 +11,7 @@ public class Model {
     private Fuel fuel;
     private Gear gear;
     private Brand brand;
+
     public enum Fuel {
         GASOLINE,
         LPG,
@@ -84,6 +87,24 @@ public class Model {
 
     public Brand getBrand() {
         return brand;
+    }
+
+    public ComboItem getComboItem() {
+        return new ComboItem(this.getId(), this.getBrand().getName() + " - " + this.getName() + " - " + this.getYear() + " - " + this.getGear());
+    }
+
+    @Override
+    public String toString() {
+        return "Model{" +
+                "id=" + id +
+                ", brand_id=" + brand_id +
+                ", name='" + name + '\'' +
+                ", year='" + year + '\'' +
+                ", type=" + type +
+                ", fuel=" + fuel +
+                ", gear=" + gear +
+                ", brand=" + brand +
+                '}';
     }
 
     public void setBrand(Brand brand) {
