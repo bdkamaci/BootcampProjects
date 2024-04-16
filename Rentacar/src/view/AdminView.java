@@ -103,14 +103,6 @@ public class AdminView extends Layout{
         this.tbl_brand.setComponentPopupMenu(brand_menu);
         this.tbl_model.setComponentPopupMenu(model_menu);
 
-        btn_book_search.addActionListener(e -> {
-            ArrayList<Car> carList = this.carManager.searchForBooking(fld_strt_date.getText(), fld_fnsh_date.getText(), (Model.Gear) cmb_book_gear.getSelectedItem(), (Model.Fuel) cmb_book_fuel.getSelectedItem(), (Model.Type) cmb_book_type.getSelectedItem());
-            ArrayList<Object[]> carBookingRow = this.carManager.getForTable(this.col_booking_list.length, carList);
-            loadBookingTable(carBookingRow);
-        });
-        btn_book_delete_filter.addActionListener(e -> {
-            loadBookingFilter();
-        });
     }
 
     public void loadBookingTable(ArrayList<Object[]> carList) {
@@ -122,9 +114,26 @@ public class AdminView extends Layout{
         tableRowSelect(this.tbl_book);
         this.book_menu = new JPopupMenu();
         this.book_menu.add("Book a Car").addActionListener(e -> {
-
+            int selectCarId = this.getTableSelectedRow(this.tbl_book, 0);
+            BookingView bookingView = new BookingView(this.carManager.getById(selectCarId), this.fld_strt_date.getText(), this.fld_fnsh_date.getText());
+            bookingView.addWindowListener(new WindowAdapter() {
+                @Override
+                public void windowClosed(WindowEvent e) {
+                    loadBookingTable(null);
+                    loadBookingFilter();
+                }
+            });
         });
         this.tbl_book.setComponentPopupMenu(book_menu);
+
+        btn_book_search.addActionListener(e -> {
+            ArrayList<Car> carList = this.carManager.searchForBooking(fld_strt_date.getText(), fld_fnsh_date.getText(), (Model.Gear) cmb_book_gear.getSelectedItem(), (Model.Fuel) cmb_book_fuel.getSelectedItem(), (Model.Type) cmb_book_type.getSelectedItem());
+            ArrayList<Object[]> carBookingRow = this.carManager.getForTable(this.col_booking_list.length, carList);
+            loadBookingTable(carBookingRow);
+        });
+        btn_book_delete_filter.addActionListener(e -> {
+            loadBookingFilter();
+        });
     }
 
     public void loadBookingFilter() {
