@@ -57,4 +57,21 @@ public class PensionDao {
         return pension;
     }
 
+    public ArrayList<Pension> findAll() {
+        return this.selectByQuery("SELECT * FROM public.pension ORDER BY pension_id ASC");
+    }
+
+    public ArrayList<Pension> selectByQuery(String query) {
+        ArrayList<Pension> pensionList = new ArrayList<>();
+        try {
+            ResultSet rs = this.connection.createStatement().executeQuery(query);
+            while (rs.next()) {
+                pensionList.add(this.match(rs));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return pensionList;
+    }
+
 }

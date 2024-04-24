@@ -74,7 +74,6 @@ public class AdminView extends Layout {
 
         this.user_menu.add("Update").addActionListener(e -> {
             int selectedUserId = this.getTableSelectedRow(tbl_search, 0);
-            System.out.println(selectedUserId);
             UserView userView = new UserView(this.userManager.getById(selectedUserId));
             userView.addWindowListener(new WindowAdapter() {
                 @Override

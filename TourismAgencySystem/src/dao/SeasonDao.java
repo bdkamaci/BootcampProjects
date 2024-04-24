@@ -1,6 +1,7 @@
 package dao;
 
 import core.Db;
+import entity.Hotel;
 import entity.Season;
 
 import java.sql.Connection;
@@ -40,4 +41,38 @@ public class SeasonDao {
         season.setEnd_date(resultSet.getDate("end_date").toLocalDate());
         return season;
     }
+
+    public ArrayList<Season> findAll() {
+        return this.selectByQuery("SELECT * FROM public.season ORDER BY season_id ASC");
+    }
+
+    public ArrayList<Season> selectByQuery(String query) {
+        ArrayList<Season> seasonList = new ArrayList<>();
+        try {
+            ResultSet rs = this.connection.createStatement().executeQuery(query);
+            while (rs.next()) {
+                seasonList.add(this.match(rs));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return seasonList;
+    }
+
+    public Season getById(int id)  {
+        Season obj = null;
+        String query = "SELECT * FROM public.season WHERE season_id = ?";
+        try {
+            PreparedStatement pr = this.connection.prepareStatement(query);
+            pr.setInt(1, id);
+            ResultSet rs = pr.executeQuery();
+            if(rs.next()) {
+                obj = this.match(rs);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return obj;
+    }
+
 }

@@ -3,6 +3,7 @@ package business;
 import core.Helper;
 import dao.HotelDao;
 import entity.Hotel;
+import entity.User;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -29,6 +30,29 @@ public class HotelManager {
             return false;
         }
         return this.hotelDao.save(hotel);
+    }
+
+    public ArrayList<Object[]> getForTable(int size, ArrayList<Hotel> hotels) {
+        ArrayList<Object[]> hotelList = new ArrayList<>();
+        for(Hotel obj : hotels) {
+            int i = 0;
+            Object[] rowObject = new Object[size];
+            rowObject[i++] = obj.getId();
+            rowObject[i++] = obj.getName();
+            rowObject[i++] = obj.getAddress();
+            rowObject[i++] = obj.getMail();
+            rowObject[i++] = obj.getPhone();
+            rowObject[i++] = obj.getStar();
+            rowObject[i++] = obj.isAutopark();
+            rowObject[i++] = obj.isWifi();
+            rowObject[i++] = obj.isPool();
+            rowObject[i++] = obj.isGym();
+            rowObject[i++] = obj.isConcierge();
+            rowObject[i++] = obj.isSpa();
+            rowObject[i++] = obj.isRoomService();
+            hotelList.add(rowObject);
+        }
+        return hotelList;
     }
 
     /*public ArrayList<Hotel> searchForBooking(String start_date, String end_date, Model.Gear gear, Model.Fuel fuel, Model.Type type) {

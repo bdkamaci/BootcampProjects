@@ -1,5 +1,7 @@
 package view;
 
+import entity.Hotel;
+
 import javax.swing.*;
 
 public class HotelSaveView extends Layout {
@@ -25,9 +27,12 @@ public class HotelSaveView extends Layout {
     private JCheckBox chck_spa;
     private JCheckBox chck_roomservice;
     private JButton btn_hotel_save_save;
+    private Hotel hotel;
 
-    public HotelSaveView() {
+    public HotelSaveView(Hotel hotel) {
         this.add(container);
-        guiInitialise(300,400);
+        guiInitialise(400,400);
+
+        this.hotel = hotel;
     }
 }
