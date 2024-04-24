@@ -3,4 +3,4 @@
 - Employee View Hotel Tab update ve save islemleri yazilacak.
 - Employee View Room Tab Islemler
 - Employee View Reservation Tab Islemler
-- SQL Back Up Yuklenilecek
+- SQL Back Up 
