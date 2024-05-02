@@ -13,6 +13,8 @@ public class Reservation {
     private String guestIdentification;
     private String guestMail;
     private String guestPhone;
+    private int guestCountAdult;
+    private int guestCountChildren;
 
     public Reservation() {
     }
@@ -95,5 +97,21 @@ public class Reservation {
 
     public void setGuestPhone(String guestPhone) {
         this.guestPhone = guestPhone;
+    }
+
+    public int getGuestCountAdult() {
+        return guestCountAdult;
+    }
+
+    public void setGuestCountAdult(int guestCountAdult) {
+        this.guestCountAdult = guestCountAdult;
+    }
+
+    public int getGuestCountChildren() {
+        return guestCountChildren;
+    }
+
+    public void setGuestCountChildren(int guestCountChildren) {
+        this.guestCountChildren = guestCountChildren;
     }
 }

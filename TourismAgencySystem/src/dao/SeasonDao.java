@@ -3,11 +3,9 @@ package dao;
 import core.Db;
 import entity.Hotel;
 import entity.Season;
+import entity.User;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 
 public class SeasonDao {
@@ -75,4 +73,56 @@ public class SeasonDao {
         return obj;
     }
 
+    public boolean update(Season season) {
+        String query = "UPDATE public.season SET " +
+                "hotel_id = ?, " +
+                "start_date = ?, " +
+                "end_date = ? " +
+                "WHERE season_id = ?";
+        try {
+            PreparedStatement pr = connection.prepareStatement(query);
+            pr.setInt(1, season.getHotel_id());
+            pr.setDate(2, Date.valueOf(season.getStart_date()));
+            pr.setDate(3, Date.valueOf(season.getEnd_date()));
+            pr.setInt(4, season.getId());
+            return pr.executeUpdate() != -1;
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return true;
+    }
+
+    public boolean save(Season season) {
+        String query = "INSERT INTO public.season " +
+                "(" +
+                "hotel_id, " +
+                "start_date, " +
+                "end_date" +
+                ") " +
+                " VALUES (?,?,?)";
+        try {
+            PreparedStatement pr = connection.prepareStatement(query);
+            pr.setInt(1, season.getHotel_id());
+            pr.setDate(2, Date.valueOf(season.getStart_date()));
+            pr.setDate(3, Date.valueOf(season.getEnd_date()));
+            return pr.executeUpdate() != -1;
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return true;
+    }
+
+    public boolean delete(int season_id) {
+        String query = "DELETE FROM public.season WHERE season_id = ?";
+        try {
+            PreparedStatement pr = this.connection.prepareStatement(query);
+            pr.setInt(1, season_id);
+            return pr.executeUpdate() != -1;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return true;
+    }
+
 }
+

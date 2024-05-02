@@ -55,6 +55,34 @@ public class HotelManager {
         return hotelList;
     }
 
+    public ArrayList<Object[]> getForReservation(int size, ArrayList<Hotel> hotels) {
+        ArrayList<Object[]> hotelList = new ArrayList<>();
+        for(Hotel obj : hotels) {
+            int i = 0;
+            Object[] rowObject = new Object[size];
+            rowObject[i++] = obj.getId();
+            rowObject[i++] = obj.getName();
+            hotelList.add(rowObject);
+        }
+        return hotelList;
+    }
+
+    public boolean delete(int id) {
+        if(this.getById(id) == null) {
+            Helper.showMessage(id + " ID - hotel not found!");
+            return false;
+        }
+        return this.hotelDao.delete(id);
+    }
+
+    public boolean update(Hotel hotel) {
+        if(this.getById(hotel.getId()) == null) {
+            Helper.showMessage(hotel.getId() + " ID - hotel not found!");
+            return false;
+        }
+        return this.hotelDao.update(hotel);
+    }
+
     /*public ArrayList<Hotel> searchForBooking(String start_date, String end_date, Model.Gear gear, Model.Fuel fuel, Model.Type type) {
         String query = "SELECT * FROM public.car AS c LEFT JOIN public.model AS m";
         ArrayList<String> where = new ArrayList<>();
