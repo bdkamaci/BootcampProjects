@@ -47,7 +47,7 @@ The project follow the SoC principle by separating different aspects of the appl
 
 ## Dependencies
 
-Java Development Kit (JDK)
-Swing Framework (for GUI)
-Postgres Connector (for database interaction)
-Other dependencies as specified in the pom.xml or build.gradle file
+- Java Development Kit (JDK)
+- Swing Framework (for GUI)
+- Postgres Connector (for database interaction)
+- Other dependencies as specified in the pom.xml or build.gradle file
